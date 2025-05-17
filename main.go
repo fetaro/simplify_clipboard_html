@@ -4,6 +4,7 @@ package main
 #cgo CFLAGS: -x objective-c
 #cgo LDFLAGS: -framework Cocoa
 #import <Cocoa/Cocoa.h>
+#include <stdlib.h>
 
 char* getHTMLFromPasteboard() {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
@@ -13,9 +14,17 @@ char* getHTMLFromPasteboard() {
     }
     return strdup([html UTF8String]);
 }
+
+void setHTMLToPasteboard(const char* html) {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    NSString *htmlString = [NSString stringWithUTF8String:html];
+    [pasteboard setString:htmlString forType:@"public.html"];
+}
 */
 import "C"
 import (
+	"flag"
 	"fmt"
 	"strings"
 	"unsafe"
@@ -35,6 +44,14 @@ func removeAttributes(node *html.Node) {
 }
 
 func main() {
+	// コマンドライン引数の処理
+	debug := flag.Bool("debug", false, "デバッグモードを有効にする")
+	debugShort := flag.Bool("d", false, "デバッグモードを有効にする（-debugのショートカット）")
+	flag.Parse()
+
+	// デバッグモードの判定
+	isDebug := *debug || *debugShort
+
 	clipboardHTML := C.getHTMLFromPasteboard()
 	if clipboardHTML == nil {
 		fmt.Println("クリップボードにHTMLデータがありません")
@@ -43,10 +60,17 @@ func main() {
 	defer C.free(unsafe.Pointer(clipboardHTML))
 
 	// Cの文字列をGoの文字列に変換
-	text := C.GoString(clipboardHTML)
+	originalText := C.GoString(clipboardHTML)
+
+	// デバッグモードの場合、元のHTMLを表示
+	if isDebug {
+		fmt.Println("=== 元のHTML ===")
+		fmt.Println(originalText)
+		fmt.Println("===============")
+	}
 
 	// HTMLをパース
-	doc, err := html.Parse(strings.NewReader(text))
+	doc, err := html.Parse(strings.NewReader(originalText))
 	if err != nil {
 		fmt.Println("HTMLのパースに失敗しました:", err)
 		return
@@ -55,11 +79,23 @@ func main() {
 	// 属性を除去
 	removeAttributes(doc)
 
-	// 処理済みのHTMLを出力
+	// 処理済みのHTMLを文字列化
 	var buf strings.Builder
 	if err := html.Render(&buf, doc); err != nil {
 		fmt.Println("HTMLのレンダリングに失敗しました:", err)
 		return
 	}
-	fmt.Print(buf.String())
+	result := buf.String()
+
+	// デバッグモードの場合、変換後のHTMLを表示
+	if isDebug {
+		fmt.Println("=== 変換後のHTML ===")
+		fmt.Println(result)
+		fmt.Println("===================")
+	}
+
+	// クリップボードにHTML形式で書き込む
+	cstr := C.CString(result)
+	defer C.free(unsafe.Pointer(cstr))
+	C.setHTMLToPasteboard(cstr)
 }

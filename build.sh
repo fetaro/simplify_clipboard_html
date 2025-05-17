@@ -1,0 +1,1 @@
+go build -o simplify_clipboard_html
