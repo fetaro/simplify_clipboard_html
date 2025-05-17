@@ -21,9 +21,9 @@
 
 ## インストール方法
 
-[simplify_clipboard_html](simplify_clipboard_html) をダウンロードしてください。
+実行ファイル [simplify_clipboard_html](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/simplify_clipboard_html) をダウンロードしてください。
 
-実行権限を与えてください
+以下のコマンドで実行権限を与えてください。
 
 ```
 chmod 755 ./simplify_clipboard_html
@@ -37,7 +37,7 @@ Slackの箇条書きをコピーした状態で、simplify_clipboard_html を以
 ./simplify_clipboard_html
 ```
 
-クリップボードの内容が書き換わり、Google Docsにきれいにペーストできます。
+クリップボードの内容が書き換わり、その後Google Docsにきれいにペーストできます。
 
 ## 仕組み
 
