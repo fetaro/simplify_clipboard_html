@@ -21,13 +21,15 @@
 
 ## インストール方法
 
-実行ファイル [simplify_clipboard_html](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/simplify_clipboard_html) をダウンロードしてください。
+Apple siliconのMacOS(M1,M2など)であれば、MacOS実行ファイル [simplify_clipboard_html](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/simplify_clipboard_html) をダウンロードしてください。
 
 以下のコマンドで実行権限を与えてください。
 
 ```
 chmod 755 ./simplify_clipboard_html
 ```
+
+※Apple silicon以外のMacOSでは動作確認していません。自分でビルドをお願いします。
 
 ## 使い方
 
@@ -39,6 +41,7 @@ Slackの箇条書きをコピーした状態で、simplify_clipboard_html を以
 
 クリップボードの内容が書き換わり、その後Google Docsにきれいにペーストできます。
 
+
 ## 仕組み
 
 ### このツールは何をしているか？
@@ -46,6 +49,8 @@ Slackの箇条書きをコピーした状態で、simplify_clipboard_html を以
 MacOSのクリップボードからHTMLを取得し、HTMLのタグを全部消し、クリップボードにもどしている
 
 ### 詳細
+
+まずMacOSのシステムライブラリを使って、クリップボードの中身をHTML形式で取得する。(ちなみに、MacOSにある「pbcopy」コマンドはHTML形式での取得に対応していないため、利用できない)
 
 取得したHTML配下のように色んな属性が入っていて、これがレイアウトを複雑にする原因になっている
 ```html
