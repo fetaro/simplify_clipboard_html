@@ -64,9 +64,9 @@ func main() {
 
 	// デバッグモードの場合、元のHTMLを表示
 	if isDebug {
-		fmt.Println("=== 元のHTML ===")
+		fmt.Println("=== 変換前のクリップボードのHTMLデータ ===")
 		fmt.Println(originalText)
-		fmt.Println("===============")
+		fmt.Println("=====================================")
 	}
 
 	// HTMLをパース
@@ -88,14 +88,16 @@ func main() {
 	result := buf.String()
 
 	// デバッグモードの場合、変換後のHTMLを表示
+
 	if isDebug {
-		fmt.Println("=== 変換後のHTML ===")
+		fmt.Println("=== 変換後のクリップボードのHTMLデータ ===")
 		fmt.Println(result)
-		fmt.Println("===================")
+		fmt.Println("=====================================")
 	}
 
 	// クリップボードにHTML形式で書き込む
 	cstr := C.CString(result)
 	defer C.free(unsafe.Pointer(cstr))
 	C.setHTMLToPasteboard(cstr)
+	fmt.Println("クリップボードのHTMLデータをシンプルにしました")
 }
