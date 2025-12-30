@@ -22,15 +22,15 @@
 ## インストール方法
 
 ### 実行プログラムのダウンロード
-Apple siliconのMacOS(M1,M2など)であれば、 [こちらの実行ファイル](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/dist/arm64/simplify_clipboard_html) をダウンロードしてください。
+Apple siliconのMacOSであれば、 [こちらの実行ファイル](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/dist/arm64/slack_to_gdocs) をダウンロードしてください。
 
-Intell Macの場合は、[こちらの実行ファイル](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/dist/x86_64/simplify_clipboard_html) をダウンロードしてください。
+Intell Macの場合は、[こちらの実行ファイル](https://raw.githubusercontent.com/fetaro/simplify_clipboard_html/refs/heads/main/dist/x86_64/slack_to_gdocs) をダウンロードしてください。
 
 ### 実行権限の付与
 Macのターミナルを開いて、ダウンロードしたファイルに対して以下のコマンドを実行し実行権限を与えてください。
 
 ```
-chmod 755 ./simplify_clipboard_html
+chmod 755 ./slack_to_gdocs
 ```
 
 
@@ -40,7 +40,7 @@ chmod 755 ./simplify_clipboard_html
 2. ツールを実行します。ターミナルで以下のように実行してください。
 
 ```
-./simplify_clipboard_html
+./slack_to_gdocs
 ```
 
 クリップボードの内容が書き換わります
@@ -52,7 +52,7 @@ chmod 755 ./simplify_clipboard_html
 コマンドに -d オプションを付けて実行してください。処理内容が見れます。
 
 ```
-./simplify_clipboard_html -d
+./slack_to_gdocs -d
 ```
 
 出力結果
